@@ -1,46 +1,46 @@
 package org.example.springsecuritylearning.springsecurity.Context.secondProject.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
-public class User {
-    @Id
-    public Long id;
-    public String name;
-    public String password;
-    public String authority;
+import java.util.Collection;
+import java.util.List;
 
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
+public class User implements UserDetails {
+    private final String username;
+    private final String password;
+    private final String authority;
+    public User(String username, String password, String authority) {
+        this.username = username;
+        this.password = password;
         this.authority = authority;
     }
-
-    public Long getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(() -> authority);
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    @Override
     public String getPassword() {
         return password;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
+    @Override
+    public String getUsername() {
+        return username;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
