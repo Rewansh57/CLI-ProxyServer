@@ -3,27 +3,24 @@ package org.example.springsecuritylearning.springsecurity.Context.secondProject.
 import org.example.springsecuritylearning.springsecurity.Context.secondProject.model.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import java.util.List;
 
 @Configuration
 public class ProjectConfig {
-    @Bean
-    public UserDetailsService getUser() {
-        UserDetails u = new User("john", "12345", "read");
-       List<UserDetails> users=List.of(u);
-       return new InMemoryUserDetailsService(users);
+
+   @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+       http
+               .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+               .authorizeHttpRequests((c)->c.anyRequest().permitAll());
+       return http.build();
 
 
-    }
-    @Bean
-    public PasswordEncoder getPasswordEncoder(){
-        return  NoOpPasswordEncoder.getInstance();
-    }
+
+        }
 }
