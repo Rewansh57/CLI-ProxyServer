@@ -3,24 +3,27 @@ package org.example.springsecuritylearning.springsecurity.Context.secondProject.
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 
 public class RequestValidationFilter implements Filter {
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterchain) throws IOException, ServletException{
-        var httpRequest=(HttpServletRequest) request;
-        var httpResponse=(HttpServletResponse) response;
+    @Value("{Authentication.Key}")
+    private String authKey;
 
-        String requestId=httpRequest.getHeader("Request-Id");
-        if (requestId==null || requestId.isBlank()){
-            httpResponse.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterchain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        String requestKey = httpRequest.getHeader("Authorization");
+
+        if (requestKey != null && requestKey.equals(authKey)) {
+            filterchain.doFilter(request, response);
+
+        } else {
+            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         }
-        filterchain.doFilter(request,response);
-
 
 
     }
-
 }

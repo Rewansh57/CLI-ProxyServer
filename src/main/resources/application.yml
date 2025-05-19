@@ -27,3 +27,6 @@ spring:
             descriptor:
               sql:
                 BasicBinder: TRACE
+Authentication:
+  Key:
+    SD9cICjl1e

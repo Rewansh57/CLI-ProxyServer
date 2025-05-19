@@ -14,13 +14,14 @@ import java.util.List;
 public class ProjectConfig {
 
    @Bean
-        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
        http
-               .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+               .addFilterAt(new RequestValidationFilter(),BasicAuthenticationFilter.class)
                .authorizeHttpRequests((c)->c.anyRequest().permitAll());
        return http.build();
 
 
 
-        }
+    }
+
 }
