@@ -1,29 +1,32 @@
 package org.example.springsecuritylearning.springsecurity.Context.secondProject.configuration;
 
-import jakarta.servlet.*;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 
+import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
 
-public class RequestValidationFilter implements Filter {
-    @Value("{Authentication.Key}")
+
+public class RequestValidationFilter extends OncePerRequestFilter {
+
+    @Value("${Authentication.Key}")
     private String authKey;
 
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterchain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String requestKey = httpRequest.getHeader("Authorization");
+    @Override
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        String requestKey = request.getHeader("Authorization");
 
         if (requestKey != null && requestKey.equals(authKey)) {
-            filterchain.doFilter(request, response);
-
+            filterChain.doFilter(request, response);
         } else {
-            httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Unauthorized: Invalid API key");
         }
-
-
     }
 }
