@@ -30,15 +30,10 @@ public class ProjectController {
 
 
    }
-    @PostMapping
-    public String post(@RequestBody Users user){
-       userService.post(user);
-       return "User logged in Db";
 
-   }
-   @PostMapping
+   @PostMapping("/post")
     public String verify(@RequestBody Users user){
-       userService.verify(user);
+       return userService.verify(user);
 
    }
 
