@@ -24,6 +24,8 @@ public class CommandLineRunner implements ApplicationRunner {
         }
       System.out.println("username " +username);
         System.out.println(env.getActiveProfiles());
+        System.out.println(env.getActiveProfiles());
+
 
 
 
