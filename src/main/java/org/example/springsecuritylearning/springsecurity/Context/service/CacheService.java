@@ -25,7 +25,7 @@ public CachedResponse get(String key){
 
 
 }
-public void set(String key ,CacheResponse response){
+public void set(String key ,CachedResponse response){
     Cache cache=cacheManager.getCache(key);
     if (cache==null){
         cache.put(key ,response);
