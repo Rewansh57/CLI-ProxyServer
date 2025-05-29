@@ -1,8 +1,5 @@
 package org.example.springsecuritylearning.springsecurity.Context.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.http.HttpHeaders;
 
 
