@@ -55,3 +55,4 @@ You can also set properties in application.properties:
 proxy.origin=https://dummyjson.com
 server.port=9001
 
+Resource:https://roadmap.sh/projects/caching-server
